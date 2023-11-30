@@ -1,0 +1,43 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.35.2.
+--
+-- see: https://github.com/sol/hpack
+
+name:           interval-analysis
+version:        0.1.0.0
+synopsis:       citrus
+description:    interval analysis
+category:       static-analysis
+homepage:       https://github.com/damhiya/interval-analysis#readme
+bug-reports:    https://github.com/damhiya/interval-analysis/issues
+author:         damhiya
+maintainer:     damhiya@gmail.com
+copyright:      (c) 2022 SoonWon Moon
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/damhiya/interval-analysis
+
+executable citrus
+  main-is: Main.hs
+  other-modules:
+      Syntax
+      Paths_interval_analysis
+  autogen-modules:
+      Paths_interval_analysis
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
+      LambdaCase
+  ghc-options: -Wall -Wno-unused-matches
+  build-depends:
+      base >=4.14 && <5.0
+    , text >=2.0
+  default-language: GHC2021
