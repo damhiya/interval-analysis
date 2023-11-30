@@ -1,12 +1,12 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.35.2.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
 
 name:           interval-analysis
 version:        0.1.0.0
-synopsis:       citrus
+synopsis:       interval analysis
 description:    interval analysis
 category:       static-analysis
 homepage:       https://github.com/damhiya/interval-analysis#readme
@@ -24,9 +24,12 @@ source-repository head
   type: git
   location: https://github.com/damhiya/interval-analysis
 
-executable citrus
+executable analysis
   main-is: Main.hs
   other-modules:
+      CFG
+      Domain
+      Examples
       Syntax
       Paths_interval_analysis
   autogen-modules:
