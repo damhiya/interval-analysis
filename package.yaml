@@ -22,6 +22,7 @@ dependencies:
   - text >= 2.0
   - containers >= 0.6
   - mtl >= 2.2
+  - array >= 0.5
 
 executables:
   analysis:
