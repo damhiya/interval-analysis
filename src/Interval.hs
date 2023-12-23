@@ -12,7 +12,7 @@ data Interval
   | UpperBound Integer
   | LowerBound Integer
   | FinRange Integer Natural
-  deriving Show
+  deriving (Eq, Show)
 
 iminmax :: Interval -> Maybe (EInteger, EInteger)
 iminmax Bottom = Nothing
@@ -53,6 +53,22 @@ instance BoundedBelow Interval where
 instance BoundedAbove Interval where
   top = Top
 
+instance Widening Interval where
+  wide i1 i2 =
+    case (iminmax i1, iminmax i2) of
+      (Nothing, _) -> i2
+      (_, Nothing) -> i1
+      (Just (a, b), Just (c, d)) ->
+        erange (if c < a then NInf else a) (if b < d then PInf else b)
+
+instance Narrowing Interval where
+  narrow i1 i2 =
+    case (iminmax i1, iminmax i2) of
+      (Nothing, _) -> Bottom
+      (_, Nothing) -> Bottom
+      (Just (a, b), Just (c, d)) ->
+        erange (if a == NInf then c else a) (if b == PInf then d else b)
+
 iadd :: Interval -> Interval -> Interval
 iadd i1 i2 =
   case (iminmax i1, iminmax i2) of
@@ -87,20 +103,3 @@ imul :: Interval -> Interval -> Interval
 imul = undefined
 idiv :: Interval -> Interval -> Interval
 idiv = undefined
-
-wide :: Interval -> Interval -> Interval
-wide i1 i2 =
-  case (iminmax i1, iminmax i2) of
-    (Nothing, _) -> i2
-    (_, Nothing) -> i1
-    (Just (a, b), Just (c, d)) ->
-      erange (if c < a then NInf else a) (if b < d then PInf else b)
-
-narrow :: Interval -> Interval -> Interval
-narrow i1 i2 =
-  case (iminmax i1, iminmax i2) of
-    (Nothing, _) -> Bottom
-    (_, Nothing) -> Bottom
-    (Just (a, b), Just (c, d)) ->
-      erange (if a == NInf then c else a) (if b == PInf then d else b)
-

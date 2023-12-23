@@ -9,3 +9,15 @@ class Lattice l => BoundedBelow l where
 
 class Lattice l => BoundedAbove l where
   top :: l
+
+class Lattice l => Widening l where
+  wide :: l -> l -> l
+
+class Lattice l => Narrowing l where
+  narrow :: l -> l -> l
+
+joinAll :: (Lattice l, BoundedBelow l) => [l] -> l
+joinAll = foldr join bottom
+
+meetAll :: (Lattice l, BoundedAbove l) => [l] -> l
+meetAll = foldr meet top

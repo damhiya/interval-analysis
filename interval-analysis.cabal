@@ -28,6 +28,7 @@ executable analysis
   main-is: Main.hs
   other-modules:
       Analysis
+      Apply
       CFG
       Domain
       Examples
