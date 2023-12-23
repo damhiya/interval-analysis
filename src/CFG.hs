@@ -5,7 +5,7 @@ import Data.IntMap
 import Data.Graph
 import Syntax
 
-type CFG = (Graph, IntMap Cmd)
+type CFG = (Graph, Graph, IntMap Cmd)
 
 type W = (IntMap Cmd, [Edge])
 type S = Int
@@ -76,6 +76,8 @@ makeCFG (Print e) = do
   pure (v, v)
 
 genCFG :: Stmt -> CFG
-genCFG s = (buildG (0,n-1) es, m)
+genCFG s = (g, g', m)
   where
     (_, n, (m, es)) = runRWS (makeCFG s) () 0
+    g  = buildG (0,n-1) es
+    g' = transposeG g

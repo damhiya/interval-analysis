@@ -2,13 +2,20 @@ module Analysis where
 
 import Data.Array  qualified as A
 import Data.IntMap qualified as IM
-import Data.Graph
 import CFG
 import Lattice
 import Interval
 import Domain
 import Syntax
 import Apply
+
+eval :: State -> AExpr -> Interval
+eval rho (Var x) = apply rho x
+eval _   (ALit n) = FinRange n 0
+eval rho (Add e1 e2) = eval rho e1 `iadd` eval rho e2
+eval rho (Sub e1 e2) = eval rho e1 `isub` eval rho e2
+eval rho (Mul e1 e2) = eval rho e1 `imul` eval rho e2
+eval rho (Div e1 e2) = eval rho e1 `idiv` eval rho e2
 
 step :: Cmd -> State -> State
 step CSkip s = s
@@ -20,15 +27,13 @@ step (CGt x n) s = adjust x (\i -> meet i (LowerBound (n+1))) s
 step (CPrint _) s = s
 
 step' :: CFG -> Domain -> Domain
-step' (g, cs) d = Domain (IM.mapWithKey go cs)
+step' (g, g', cs) d = Domain (IM.mapWithKey go cs)
   where
-    g' = transposeG g
-
     go :: Int -> Cmd -> State
-    go n c = step c s
+    go v c = step c s
       where
-        ns = g' A.! n
-        s = joinAll (map (apply d) ns)
+        ss = apply d <$> (g' A.! v)
+        s = joinAll ss
 
 fpow :: Int -> (a -> a) -> (a -> a)
 fpow n f 

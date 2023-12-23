@@ -95,11 +95,3 @@ adjust x f (State s) = State (M.alter go x s)
   where
     go Nothing  = Just (f bottom)
     go (Just i) = Just (f i)
-
-eval :: State -> AExpr -> Interval
-eval rho (Var x) = apply rho x
-eval _   (ALit n) = FinRange n 0
-eval rho (Add e1 e2) = eval rho e1 `iadd` eval rho e2
-eval rho (Sub e1 e2) = eval rho e1 `isub` eval rho e2
-eval rho (Mul e1 e2) = eval rho e1 `imul` eval rho e2
-eval rho (Div e1 e2) = eval rho e1 `idiv` eval rho e2

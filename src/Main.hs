@@ -1,11 +1,8 @@
 module Main where
 
-import Syntax
 import Examples
 import CFG
 import Analysis
-import Lattice
-import Domain
 
 main :: IO ()
 main = do
