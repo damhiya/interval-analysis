@@ -21,3 +21,6 @@ joinAll = foldr join bottom
 
 meetAll :: (Lattice l, BoundedAbove l) => [l] -> l
 meetAll = foldr meet top
+
+data Bot a = BotElem | NotBot a deriving (Eq, Ord)
+data Top a = NotTop a | TopElem deriving (Eq, Ord)
