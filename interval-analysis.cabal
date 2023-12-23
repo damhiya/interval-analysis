@@ -31,6 +31,8 @@ executable analysis
       CFG
       Domain
       Examples
+      Interval
+      Lattice
       Syntax
       Paths_interval_analysis
   autogen-modules:
